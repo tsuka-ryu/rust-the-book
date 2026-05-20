@@ -1,3 +1,19 @@
+use std::env;
+use std::process;
+
+use ch13_iterators_closures::Config;
+
 fn main() {
-    println!("Chapter: ch13-iterators-closures");
+    let config = Config::new(env::args()).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.filename);
+
+    if let Err(e) = ch13_iterators_closures::run(config) {
+        eprintln!("Application error: {}", e);
+        process::exit(1);
+    }
 }
